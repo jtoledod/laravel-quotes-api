@@ -11,14 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('favorite_quotes', function (Blueprint $table) {
-
-            $table->id();
-
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('quote_id')->constrained()->onDelete('cascade');
-
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->renameColumn('active','status');
+            $table->renameColumn('inactive_at','banned_at');
         });
     }
 
@@ -27,6 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('favorite_quotes');
+        Schema::table('users', function (Blueprint $table) {
+            $table->renameColumn('status','active');
+            $table->renameColumn('banned_at','inactive_at');
+        });
     }
 };
