@@ -19,7 +19,7 @@ class DefaultAdminSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'test@admin.com',
             'password' => bcrypt('password'),
-            'roles'=> json_encode([User::ROLE_ADMIN]),
+            'roles' => json_encode([User::ROLE_ADMIN]),
             'email_verified_at' => $now,
             'created_at' => $now,
             'updated_at' => $now,
