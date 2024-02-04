@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\DTO\LoginUserDTO;
+use App\DTO\AuthUserDTO;
 use App\DTO\UserTokenDTO;
 use App\Exceptions\AppException;
 use App\Repositories\UserRepository;
@@ -11,18 +11,19 @@ use Illuminate\Support\Facades\Auth;
 class AuthService
 {
     public function __construct(
-        private UserRepository $userRepository) {
+        private UserRepository $userRepository)
+    {
     }
 
-    public function authenticate(LoginUserDTO $credentials): UserTokenDTO
+    public function authenticate(AuthUserDTO $credentials): UserTokenDTO
     {
-        if(!Auth::attempt($credentials->toArray())){
+        if (! Auth::attempt($credentials->toArray())) {
             throw AppException::unauthorized('Invalid credentials');
-        };
+        }
 
-        $user = $this->userRepository->findOneBy(['email'=> $credentials->email]);
+        $user = $this->userRepository->findOneBy(['email' => $credentials->email]);
 
-        if(!$user){
+        if (! $user) {
             throw AppException::notFound();
         }
 
@@ -30,8 +31,7 @@ class AuthService
 
         return UserTokenDTO::fromArray([
             'user' => $user->toArray(),
-            'token' => $token->plainTextToken
+            'token' => $token->plainTextToken,
         ]);
     }
-
 }

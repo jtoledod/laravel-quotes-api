@@ -6,9 +6,8 @@ use App\DTO\RegisterUserDTO;
 use App\Http\Requests\RegisterUserRequest;
 use App\Services\UserService;
 
-class RegisterController extends Controller
+class RegisterUserController extends Controller
 {
-
     /**
      * Handle the incoming request.
      */
@@ -16,6 +15,7 @@ class RegisterController extends Controller
     {
         $userDTO = RegisterUserDTO::fromArray($request->all());
         $data = $userService->registerUser($userDTO);
-        return $this->successResponse('User registered!', $data);
+
+        return $this->jsonSuccess('User registered!', $data);
     }
 }

@@ -19,56 +19,56 @@ class AppException extends Exception
         parent::__construct($message, $code);
     }
 
-    static public function badRequest(string $message = 'Bad request')
+    public static function badRequest(string $message = 'Bad request')
     {
         return new self($message, 400);
     }
 
-    static public function unauthorized(string $message = 'Unauthorized')
+    public static function unauthorized(string $message = 'Unauthorized')
     {
         return new self($message, 401);
     }
 
-    static public function forbidden(string $message = 'Forbidden')
+    public static function forbidden(string $message = 'Forbidden')
     {
         return new self($message, 403);
     }
 
-    static public function notFound(string $message = 'Not found')
+    public static function notFound(string $message = 'Not found')
     {
         return new self($message, 404);
     }
 
-    static public function internalServerError(string $message = "Internal server error")
+    public static function internalServerError(string $message = 'Internal server error')
     {
         return new self($message, 500);
     }
 
     public function render(Request $request): ?JsonResponse
     {
-        if($request->expectsJson()) {
+        if ($request->expectsJson()) {
             return $this->handleJsonException($this->getCode(), $this->getMessage());
         }
     }
 
     public function handleJsonException(int $code, string $message = ''): JsonResponse
     {
-        switch($code) {
+        switch ($code) {
             case Response::HTTP_BAD_REQUEST:
-                return $this->badRequestResponse($message);
+                return $this->jsonBadRequest($message);
                 break;
             case Response::HTTP_NOT_FOUND:
-                return $this->notFoundResponse($message);
+                return $this->jsonNotFound($message);
                 break;
             case Response::HTTP_UNAUTHORIZED:
-                return $this->unauthorizedResponse($message);
+                return $this->jsonUnauthorized($message);
                 break;
             case Response::HTTP_FORBIDDEN:
-                return $this->forbiddenResponse($message);
+                return $this->jsonForbidden($message);
                 break;
             case Response::HTTP_INTERNAL_SERVER_ERROR:
             default:
-                return $this->internalServerErrorResponse($message);
+                return $this->jsonServerError($message);
                 break;
         }
     }

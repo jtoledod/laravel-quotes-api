@@ -11,10 +11,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable implements UserStatus, UserRole
+class User extends Authenticatable implements UserRole, UserStatus
 {
     use HasApiTokens, HasFactory, Notifiable;
-
 
     /**
      * The attributes that are mass assignable.
@@ -46,7 +45,12 @@ class User extends Authenticatable implements UserStatus, UserRole
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
-        'banned_at'  => 'datetime',
-        'roles' => 'json'
+        'banned_at' => 'datetime',
+        'roles' => 'json',
     ];
+
+    public function quotes()
+    {
+        return $this->belongsToMany(Quote::class, 'favorite_quotes')->withTimestamps();
+    }
 }

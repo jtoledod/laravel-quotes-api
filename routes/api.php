@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\FavoriteQuoteController;
+use App\Http\Controllers\QuoteApiController;
+use App\Http\Controllers\RegisterUserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,5 +22,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/register', RegisterController::class)->name('register');
+Route::post('/register', RegisterUserController::class)->name('register');
 Route::post('/login', AuthController::class)->name('login');
+Route::get('/quotes-api', [QuoteApiController::class, 'allQuotes'])->name('quotes-api');
+Route::get('/quotes-api/random', [QuoteApiController::class, 'randomQuote'])->name('quotes-api.random');
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::resource('/quotes', FavoriteQuoteController::class)->except('show', 'update');
+});

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\DTO\LoginUserDTO;
+use App\DTO\AuthUserDTO;
 use App\Http\Requests\AuthUserRequest;
 use App\Services\AuthService;
 
@@ -13,8 +13,9 @@ class AuthController extends Controller
      */
     public function __invoke(AuthUserRequest $request, AuthService $authService)
     {
-        $credentials = LoginUserDTO::fromArray($request->all());
+        $credentials = AuthUserDTO::fromArray($request->all());
         $data = $authService->authenticate($credentials);
-        return $this->successResponse('Logged in!', $data);
+
+        return $this->jsonSuccess('Logged in!', $data);
     }
 }

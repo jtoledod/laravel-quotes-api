@@ -2,19 +2,17 @@
 
 namespace App\DTO;
 
-
-class LoginUserDTO  implements IDTO
+class AuthUserDTO implements InterfaceDTO
 {
     public function __construct(
         public readonly string $email,
         public readonly string $password,
     ) {
-
     }
 
-    static public function fromArray(array $data): LoginUserDTO
+    public static function fromArray(array $data): AuthUserDTO
     {
-        return new self (
+        return new self(
             data_get($data, 'email'),
             data_get($data, 'password'),
         );
@@ -24,7 +22,7 @@ class LoginUserDTO  implements IDTO
     {
         return [
             'email' => $this->email,
-            'password' => $this->password
+            'password' => $this->password,
         ];
     }
 }

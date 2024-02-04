@@ -2,7 +2,7 @@
 
 namespace App\DTO;
 
-class UserDTO  implements IDTO
+class UserDTO implements InterfaceDTO
 {
     public function __construct(
         public readonly int $id,
@@ -10,12 +10,11 @@ class UserDTO  implements IDTO
         public readonly string $email,
         public readonly array $roles,
     ) {
-
     }
 
-    static public function fromArray(array $data): UserDTO
+    public static function fromArray(array $data): UserDTO
     {
-        return new self (
+        return new self(
             data_get($data, 'id'),
             data_get($data, 'name'),
             data_get($data, 'email'),

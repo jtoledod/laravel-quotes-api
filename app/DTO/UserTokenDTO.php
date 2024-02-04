@@ -2,16 +2,15 @@
 
 namespace App\DTO;
 
-class UserTokenDTO implements IDTO
+class UserTokenDTO implements InterfaceDTO
 {
     public function __construct(
         public readonly UserDTO $user,
         public readonly string $token,
     ) {
-
     }
 
-    static public function fromArray(array $data): UserTokenDTO
+    public static function fromArray(array $data): UserTokenDTO
     {
         return new self(
             UserDTO::fromArray(data_get($data, 'user')),
