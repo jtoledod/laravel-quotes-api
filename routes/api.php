@@ -25,9 +25,11 @@ Route::get('/quotes-api/random', [QuoteApiController::class, 'randomQuote'])->na
 
 Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
     Route::get('/admin/users', [AdminUserController::class, 'index'])->name('admin.users');
+    Route::post('/admin/users/{user}/ban', [AdminUserController::class, 'ban'])->name('admin.users.ban');
+    Route::post('/admin/users/{user}/activate', [AdminUserController::class, 'activate'])->name('admin.users.activate');
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logou');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::resource('/quotes', FavoriteQuoteController::class)->except('show', 'update');
 });

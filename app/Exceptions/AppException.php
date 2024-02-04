@@ -44,11 +44,13 @@ class AppException extends Exception
         return new self($message, 500);
     }
 
-    public function render(Request $request): ?JsonResponse
+    public function render(Request $request): JsonResponse|bool
     {
         if ($request->expectsJson()) {
             return $this->handleJsonException($this->getCode(), $this->getMessage());
         }
+
+        return false;
     }
 
     public function handleJsonException(int $code, string $message = ''): JsonResponse
