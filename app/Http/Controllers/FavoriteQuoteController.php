@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\DTO\SaveFavoriteQuoteDTO;
+use App\DTO\UserDTO;
 use App\Http\Requests\QuotePostRequest;
+use App\Http\Resources\FavoriteQuoteResource;
+use App\Services\Quotes\ListQuotesService;
 use App\Services\Quotes\SaveQuoteService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -13,9 +16,12 @@ class FavoriteQuoteController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request, ListQuotesService $listQuotesService)
     {
         $user = $request->user();
+        $data = $listQuotesService->__invoke(UserDTO::fromArray($user->toArray()));
+
+        return $this->jsonSuccess('Success', FavoriteQuoteResource::collection($data));
     }
 
     /**

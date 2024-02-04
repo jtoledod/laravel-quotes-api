@@ -31,9 +31,9 @@ class BaseRepository
         return $query;
     }
 
-    public function all()
+    public function all(bool $paginate = false)
     {
-        return $this->model->all();
+        $this->model->all();
     }
 
     public function create(array $array): Model

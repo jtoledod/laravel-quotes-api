@@ -18,11 +18,11 @@ class FavoriteQuote extends Model
 
     public function user()
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function quote()
     {
-        return $this->hasOne(Quote::class);
+        return $this->belongsTo(Quote::class);
     }
 }
