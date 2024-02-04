@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FavoriteQuoteController;
 use App\Http\Controllers\QuoteApiController;
@@ -22,8 +23,11 @@ Route::post('/login', [AuthController::class, 'authenticate'])->name('login');
 Route::get('/quotes-api', [QuoteApiController::class, 'allQuotes'])->name('quotes-api');
 Route::get('/quotes-api/random', [QuoteApiController::class, 'randomQuote'])->name('quotes-api.random');
 
+Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
+    Route::get('/admin/users', [AdminUserController::class, 'index'])->name('admin.users');
+});
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logou');
-
     Route::resource('/quotes', FavoriteQuoteController::class)->except('show', 'update');
 });
