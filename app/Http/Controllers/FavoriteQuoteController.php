@@ -7,6 +7,7 @@ use App\DTO\UserDTO;
 use App\Http\Requests\QuotePostRequest;
 use App\Http\Resources\FavoriteQuoteResource;
 use App\Services\Quotes\ListQuotesService;
+use App\Services\Quotes\RemoveQuoteService;
 use App\Services\Quotes\SaveQuoteService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -44,8 +45,11 @@ class FavoriteQuoteController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, int $id, RemoveQuoteService $removeQuoteService)
     {
-        //
+        $user = $request->user();
+        $removeQuoteService->__invoke(UserDTO::fromArray($user->toArray()), $id);
+
+        return $this->jsonSuccess('Quote removed from favorites');
     }
 }
