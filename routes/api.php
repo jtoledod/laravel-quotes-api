@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\UserRole;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FavoriteQuoteController;
@@ -23,7 +24,7 @@ Route::post('/login', [AuthController::class, 'authenticate'])->name('login');
 Route::get('/quotes-api', [QuoteApiController::class, 'allQuotes'])->name('quotes-api');
 Route::get('/quotes-api/random', [QuoteApiController::class, 'randomQuote'])->name('quotes-api.random');
 
-Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
+Route::middleware(['auth:sanctum', 'role:' . UserRole::ROLE_ADMIN->value])->group(function () {
     Route::get('/admin/users', [AdminUserController::class, 'index'])->name('admin.users');
     Route::post('/admin/users/{user}/ban', [AdminUserController::class, 'ban'])->name('admin.users.ban');
     Route::post('/admin/users/{user}/activate', [AdminUserController::class, 'activate'])->name('admin.users.activate');

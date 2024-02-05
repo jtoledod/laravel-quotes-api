@@ -2,8 +2,9 @@
 
 namespace App\Services\Users;
 
+use App\Enums\UserRole;
+use App\Enums\UserStatus;
 use App\Exceptions\AppException;
-use App\Models\User;
 use App\Repositories\UserRepositoryInterface;
 
 class BanUserService
@@ -19,16 +20,16 @@ class BanUserService
 
         if (!$user) throw AppException::badRequest('Could not process the request');
 
-        if (in_array(User::ROLE_ADMIN, $user->roles)) {
+        if (in_array(UserRole::ROLE_ADMIN->value, $user->roles)) {
             throw AppException::unauthorized('Cannot ban an admin user');
         }
 
-        if ($user->status == User::STATUS_INACTIVE) {
+        if ($user->status == UserStatus::STATUS_INACTIVE->value) {
             throw AppException::unauthorized('The user has been banned already');
         }
 
         return $this->userRepository->update([
-            'status' => User::STATUS_INACTIVE,
+            'status' => UserStatus::STATUS_INACTIVE->value,
             'banned_at' => now(),
         ], $user->id);
     }

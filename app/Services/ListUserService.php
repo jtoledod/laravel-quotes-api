@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\User;
+use App\Enums\UserRole;
 use App\Repositories\UserRepositoryInterface;
 use Illuminate\Contracts\Support\Arrayable;
 
@@ -15,6 +15,6 @@ class ListUserService
 
     public function __invoke(): Arrayable
     {
-        return $this->userRepository->findByRoles([User::ROLE_USER]);
+        return $this->userRepository->findByRoles([UserRole::ROLE_USER->value]);
     }
 }

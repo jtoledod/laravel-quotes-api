@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
+use App\Enums\UserRole;
 use App\DTO\RegisterUserDTO;
 use App\DTO\UserTokenDTO;
-use App\Models\User;
 use App\Repositories\UserRepositoryInterface;
 
 class UserService
@@ -18,7 +18,7 @@ class UserService
     {
         $user = $this->userRepository->create([
             ...$registerDto->toArray(),
-            'roles' => [User::ROLE_USER],
+            'roles' => [UserRole::ROLE_USER->value],
         ]);
 
         $token = $user->createToken('auth-token');

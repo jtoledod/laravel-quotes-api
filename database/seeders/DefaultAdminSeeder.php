@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Enums\UserRole;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -19,7 +19,7 @@ class DefaultAdminSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'test@admin.com',
             'password' => bcrypt('password'),
-            'roles' => json_encode([User::ROLE_ADMIN]),
+            'roles' => json_encode([UserRole::ROLE_ADMIN->value]),
             'email_verified_at' => $now,
             'created_at' => $now,
             'updated_at' => $now,

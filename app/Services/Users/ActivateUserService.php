@@ -2,8 +2,8 @@
 
 namespace App\Services\Users;
 
+use App\Enums\UserStatus;
 use App\Exceptions\AppException;
-use App\Models\User;
 use App\Repositories\UserRepositoryInterface;
 
 class ActivateUserService
@@ -17,13 +17,13 @@ class ActivateUserService
     {
         $user = $this->userRepository->findOneBy([
             'id' => $id,
-            'status' => User::STATUS_INACTIVE,
+            'status' => UserStatus::STATUS_INACTIVE->value,
         ]);
 
         if (!$user) throw AppException::badRequest('Could not process the request');
 
         return $this->userRepository->update([
-            'status' => User::STATUS_ACTIVE,
+            'status' => UserStatus::STATUS_ACTIVE->value,
             'banned_at' => null,
         ], $user->id);
     }
